@@ -2,7 +2,8 @@
 import * as React from 'react';
 import Chat, { scrollToBottom } from './components/chatbot/Chat';
 import { ChatMessageProps } from './components/chatbot/ChatMessages';
-import { basicChat } from './functions/chatFunctions';
+import { basicChat, chatWithArticleContext } from './functions/chatFunctions';
+import { getArticleContentFromURL } from './functions/getArticleContent';
 
 const messagesInit: ChatMessageProps[] = []
 //  [
@@ -27,7 +28,7 @@ export default function Home() {
         if (messages[messages.length-1]?.content !== message) {
             messagesToSend.push({ role: 'user', content: message });
         }
-        await basicChat(messagesToSend).then(res => {
+        await chatWithArticleContext(messagesToSend, await getArticleContentFromURL('https://techcrunch.com/2023/06/07/blush-ai-dating-sim-replika-sexbot/')).then(res => {
             setMessages(m => [...m, { role: 'assistant', content: res }]);
             setTimeout(scrollToBottom, 100);
         }).catch(err => {
