@@ -1,46 +1,35 @@
 'use client'
 import * as React from 'react';
+<<<<<<< HEAD
 import Chat, { scrollToBottom } from './components/chatbot/Chat';
 import { ChatMessageProps } from './components/chatbot/ChatMessages';
 import { basicChat, chatWithArticleContext } from './functions/chatFunctions';
 import { getArticleContentFromURL } from './functions/getArticleContent';
+=======
+import Articles, { Article } from './components/articles/Articles';
+import { getAllArticles } from './functions/articleDBOperations';
+>>>>>>> 945e216 (chat with article context poc)
 
-const messagesInit: ChatMessageProps[] = []
-//  [
-//     { role: 'assistant', content: 'Hello, how can I help you?' },
-//     { role: 'user', content: 'Hi, I have a question about your product.' },
-//     { role: 'assistant', content: 'Sure, what would you like to know?' },
-//     { role: 'user', content: 'I want to know if your product is compatible with my device.' },
-//     { role: 'assistant', content: 'What device do you have?' },
-//     { role: 'user', content: 'I have an iPhone 12.' },
-//     { role: 'assistant', content: 'Yes, our product is compatible with the iPhone 12.' },
-//     { role: 'user', content: 'Great, thanks for letting me know.' },
-//     { role: 'assistant', content: 'You\'re welcome. Is there anything else I can help you with?' },
-//     { role: 'user', content: 'No, that\'s all. Thanks for your help.' },
-//   ];
+const articlesInit: Article[] = [];
 
 export default function Home() {
-    const [messages, setMessages] = React.useState(messagesInit);
-    
-    const sendMessage = async (message: string) => {
-        // await setTimeout(() => {}, 10);
-        const messagesToSend = messages;
-        if (messages[messages.length-1]?.content !== message) {
-            messagesToSend.push({ role: 'user', content: message });
+    const [articles, setArticles] = React.useState(articlesInit);
+    React.useEffect(() => {
+        const getArticleList = async () => {
+            getAllArticles().then(res => {
+                setArticles(res || []); 
+            }).catch(err => {
+                console.log('error', err)
+            })
         }
-        await chatWithArticleContext(messagesToSend, await getArticleContentFromURL('https://techcrunch.com/2023/06/07/blush-ai-dating-sim-replika-sexbot/')).then(res => {
-            setMessages(m => [...m, { role: 'assistant', content: res }]);
-            setTimeout(scrollToBottom, 100);
-        }).catch(err => {
-            setMessages(m => [...m, { role: 'assistant', content: 'Sorry, I ran into the following issue: ' + err }]);
-            setTimeout(scrollToBottom, 100);
-        })
-        
-    };
-    
+
+        getArticleList();
+    }, []);
     return (
-        <div style={{width: '100vw', height: '100vh'}}>
-            <Chat messages={messages} title='ArticleChatBot' sendMessage={sendMessage} setMessages={setMessages}/>
+        <div style={{width: '100vw', height: '100vh', margin: 0}}>
+            <Articles articles={articles}/>
         </div>
     )
 }
+
+

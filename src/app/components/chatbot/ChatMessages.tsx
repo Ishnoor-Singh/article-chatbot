@@ -1,6 +1,6 @@
 'use client'
 import ReactMarkdown from 'react-markdown';
-export default function ChatMessages({ messages }: ChatMessagesProps) {
+export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
     return (
         <div className='chat-messages'>
             {messages.map((message, index) => {
@@ -9,6 +9,7 @@ export default function ChatMessages({ messages }: ChatMessagesProps) {
                 )
                 })
             }
+            {loading && <Loading/>}
         </div>
     )
 }
@@ -25,6 +26,14 @@ function ChatMessage({ role, content }: ChatMessageProps) {
     )
 }
 
+function Loading () {
+    return (
+        <div className='laoding-container info'>
+            Loading 
+        </div>
+    )
+}
+
 export type ChatMessageProps = {
     // update role to union of strings
     'role': string;
@@ -33,4 +42,5 @@ export type ChatMessageProps = {
 
 export type ChatMessagesProps = {
     'messages': ChatMessageProps[];
+    'loading': boolean;
 }

@@ -2,6 +2,7 @@
 
 const { Configuration, OpenAIApi } = require("openai");
 import { ChatMessageProps } from '../components/chatbot/ChatMessages';
+import { getArticle } from './articleDBOperations';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -34,15 +35,18 @@ export async function basicChat(messages: ChatMessageProps[]):Promise<string> {
     })
 }
 
-export async function chatWithArticleContext(messages: ChatMessageProps[], articleContent: string):Promise<string> {
+export async function chatWithArticleContext(messages: ChatMessageProps[], articleId: string):Promise<string> {
     return new Promise(async (resolve, reject) => {
         try {
+            const article = await getArticle(articleId)
+                                        .then((content) => content)
+                                        .catch((err) => reject('Error in fetching article content: ' + err));
             const chatCompletion = await openai.createChatCompletion({
                 model: MODEL,
                 messages: [
                     {
                         role: "system",
-                        content: "The following conversation is with an AI assistant with knowledge of the article: \n" + articleContent + "\n\n"
+                        content: "The following conversation is with an AI assistant with knowledge of the article: \n" + article?.content || "" + "\n\n"
                     },
                     ...messages], 
             })

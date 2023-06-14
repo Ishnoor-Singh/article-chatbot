@@ -2,9 +2,14 @@ import React from 'react';
 import ChatMessages, { ChatMessageProps } from './ChatMessages';
 import ChatInput from './ChatInput';
 export default function Chat ({ messages, title, sendMessage, setMessages }: ChatProps) {
+    const [loading, setLoading] = React.useState(false);
+
     async function onSendMessage(message: string) {
+        setLoading(true);
+        setTimeout(scrollToBottom, 100);
         setMessages(m => [...m, { role: 'user', content: message }]);
-        sendMessage(message)
+        await sendMessage(message)
+        setLoading(false);
         setTimeout(scrollToBottom, 100);
     }
 
@@ -14,7 +19,7 @@ export default function Chat ({ messages, title, sendMessage, setMessages }: Cha
             <div className="chat-header">
                 <div className="chat-header-title">{title}</div>
             </div>
-            <ChatMessages messages={messages}/>
+            <ChatMessages messages={messages} loading={loading}/>
             <ChatInput sendMessage={onSendMessage}/>
         </div>
     )
