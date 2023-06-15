@@ -9,7 +9,11 @@ const turndownService = new TurndownService();
 export async function getArticleContentFromURL(url: string): Promise<ArticleContent> {
   return new Promise(async (resolve, reject) => {
     try {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch(
+	      {
+		         args: ['--no-sandbox']
+	      }
+      );
       const page = await browser.newPage();
       await page.goto(url);
       const [articleContent, title] = await page.evaluate(() => {

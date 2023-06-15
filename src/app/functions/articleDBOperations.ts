@@ -42,7 +42,8 @@ export async function getArticle(id: string): Promise<{title: string, content: s
 
 export async function getAllArticles(): Promise<Array<{ id: string, url: string, title: string }>> {
     return new Promise(async (resolve, reject) => {
-        const records = await pb.collection('articles').getFullList().then((records) => records).catch((err) => reject(err));
+	console.log(await pb.collection('articles').getList(1, 100).catch((err) => reject(err)))
+        const records = await pb.collection('articles').getList(1, 100).then((records) => records.items).catch((err) => reject(err));
         const articles = records?.map((record) => ({
             id: record.id,
             url: record.url,
