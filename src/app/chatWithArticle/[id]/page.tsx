@@ -29,7 +29,7 @@ export default function ChatWithArticle({params}: any) {
     };
     
     return (
-        <div style={{width: '100vw', height: '100vh'}}>
+        <div style={{width: '100%', height: '100%', margin: 0, padding: '0.5rem'}}>
             <Chat messages={messages} title='ArticleChatBot' sendMessage={sendMessage} setMessages={setMessages}/>
         </div>
     )

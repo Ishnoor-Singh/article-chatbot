@@ -15,7 +15,8 @@ export default function AddArticle() {
         await saveArticle(url).then(res => {
             console.log('added', res)
             setUrl('');
-            router.refresh();
+            // router.refresh();
+            // router.replace();
             setSnackbarMessage('Articles loaded. Refresh to see it.');
             setMessageType('success');
             setTimeout(() => {
