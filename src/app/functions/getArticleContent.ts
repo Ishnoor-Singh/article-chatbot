@@ -26,8 +26,8 @@ export async function getArticleContentFromURL(url: string): Promise<ArticleCont
         }
       });
       await browser.close();
-      const articleContentInMarkdown = turndownService.turndown(articleContent);
-      resolve({content: articleContentInMarkdown, title: title});
+      const articleContentInMarkdown = turndownService.turndown(await articleContent);
+      resolve({content: articleContentInMarkdown, title: await title});
     } catch (err) {
       // console.log(err);
       // reject(() => ({
@@ -35,7 +35,7 @@ export async function getArticleContentFromURL(url: string): Promise<ArticleCont
       //   content: null,
       //   error: err
       // }));
-      reject(new Error(err || "Unable to load Article Content"));
+      reject(new Error(err + '' || "Unable to load Article Content"));
     }
   });
 }

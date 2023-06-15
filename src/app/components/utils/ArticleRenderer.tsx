@@ -14,7 +14,7 @@ export default function ArticleRenderer({ url }: ArticleRendererProps) {
         async function fetchMd() {
             await getArticleContentFromURL(url)
             .then((md) => {
-                setMd(md);
+                setMd(md?.content || "");
             }).catch((err) => {
                 console.error(err);
                 setMd('# Something went wrong');
