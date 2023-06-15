@@ -1,14 +1,7 @@
 'use client'
 import * as React from 'react';
-<<<<<<< HEAD
-import Chat, { scrollToBottom } from './components/chatbot/Chat';
-import { ChatMessageProps } from './components/chatbot/ChatMessages';
-import { basicChat, chatWithArticleContext } from './functions/chatFunctions';
-import { getArticleContentFromURL } from './functions/getArticleContent';
-=======
 import Articles, { Article } from './components/articles/Articles';
 import { getAllArticles } from './functions/articleDBOperations';
->>>>>>> 945e216 (chat with article context poc)
 
 const articlesInit: Article[] = [];
 
